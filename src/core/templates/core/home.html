@@ -13,6 +13,9 @@
   <p class="text-secondary mb-0">Você está logado. O agendamento de horários entra nas próximas entregas.</p>
 </div>
 
+{% if user.barbeiro_ativo %}
+<a class="btn btn-bb w-100 py-2 mb-2" href="{% url 'painel_barbeiro' %}">Meu painel</a>
+{% endif %}
 <a class="btn btn-outline-secondary w-100 py-2 mb-2" href="{% url 'minha_conta' %}">Minha conta</a>
 {% if user.is_staff %}
 <a class="btn btn-outline-secondary w-100 py-2 mb-2" href="{% url 'admin:index' %}">Painel administrativo</a>

@@ -97,6 +97,7 @@ class LoginForm(AuthenticationForm):
     error_messages = {
         "invalid_login": "E-mail ou senha inválidos.",
         "inactive": "E-mail ou senha inválidos.",
+        "barbeiro_inativo": "Seu perfil de barbeiro está inativo. Fale com a barbearia.",
     }
 
     def __init__(self, *args, **kwargs):
@@ -110,3 +111,9 @@ class LoginForm(AuthenticationForm):
     def clean_username(self):
         # O cadastro grava o e-mail em minúsculas (RF01); o login aceita qualquer caixa.
         return self.cleaned_data["username"].strip().lower()
+
+    def confirm_login_allowed(self, user):
+        super().confirm_login_allowed(user)
+        # RF03: barbeiro com perfil inativo (ou sem perfil) não entra.
+        if user.papel == Usuario.Papel.BARBEIRO and not user.barbeiro_ativo:
+            raise forms.ValidationError(self.error_messages["barbeiro_inativo"], code="barbeiro_inativo")
