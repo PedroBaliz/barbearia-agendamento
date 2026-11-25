@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 
-from .models import Usuario
+from .models import Barbeiro, Usuario
 
 
 @admin.register(Usuario)
@@ -19,3 +19,12 @@ class UsuarioAdmin(UserAdmin):
     add_fieldsets = [
         (None, {"classes": ["wide"], "fields": ["email", "nome", "papel", "password1", "password2"]}),
     ]
+
+
+@admin.register(Barbeiro)
+class BarbeiroAdmin(admin.ModelAdmin):
+    list_display = ["usuario", "especialidade", "ativo"]
+    list_filter = ["ativo"]
+    search_fields = ["usuario__nome", "usuario__email", "especialidade"]
+    list_select_related = ["usuario"]
+    raw_id_fields = ["usuario"]

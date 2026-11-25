@@ -8,6 +8,7 @@ Mudanças relevantes de cada versão. O formato segue o [Keep a Changelog](https
 
 - RF01: cadastro de cliente em `/contas/cadastro/` com nome, e-mail e senha; a conta nasce com papel cliente e o usuário entra logado (#1).
 - RF02: login por e-mail e senha em `/contas/entrar/`, logout por POST em `/contas/sair/` e página restrita `/contas/minha-conta/` (#2).
+- RF04: cadastro de barbeiro em `/contas/cadastro/barbeiro/` com especialidade; tabela `barbeiro` (migration `0002_barbeiro`) e `Barbeiro.objects.disponiveis()` para o agendamento (#4).
 
 ## [0.2.0] – 2026-11-25 · Ambiente, CI e deploy
 

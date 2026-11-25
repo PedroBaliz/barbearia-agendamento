@@ -59,3 +59,28 @@ class Usuario(AbstractUser):
 
     def __str__(self):
         return f"{self.nome} <{self.email}>"
+
+
+class BarbeiroQuerySet(models.QuerySet):
+    def disponiveis(self):
+        """Barbeiros que podem receber agendamentos: perfil e conta ativos."""
+        return self.filter(ativo=True, usuario__is_active=True)
+
+
+class Barbeiro(models.Model):
+    """Tabela `barbeiro` do modelo de dados: perfil profissional ligado a um usuário."""
+
+    usuario = models.OneToOneField(Usuario, on_delete=models.CASCADE, related_name="barbeiro")
+    especialidade = models.CharField(max_length=120)
+    ativo = models.BooleanField(default=True)
+
+    objects = BarbeiroQuerySet.as_manager()
+
+    class Meta:
+        db_table = "barbeiro"
+        ordering = ["usuario__nome"]
+        verbose_name = "barbeiro"
+        verbose_name_plural = "barbeiros"
+
+    def __str__(self):
+        return f"{self.usuario.nome} ({self.especialidade})"
