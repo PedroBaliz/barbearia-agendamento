@@ -32,8 +32,13 @@ Justificativa em [docs/adr/0001-stack-tecnologica.md](docs/adr/0001-stack-tecnol
 
 ## Documentação
 
+- [Entrega da IT1 – Jornada e planejamento](docs/entregas/IT1-jornada-e-planejamento.md) — resumo da fase e mapa dos artefatos
+- [BPMN do processo (To-Be)](docs/bpmn/)
+- [Modelo de desenvolvimento](docs/modelo-de-desenvolvimento.md) — Scrum enxuto + Kanban, Definição de Pronto
 - [Modelo de dados](docs/modelo-de-dados.md) — diagrama ER, dicionário de dados e regras de negócio
+- [Protótipo de interface](docs/prototipo/)
 - [Decisões de arquitetura (ADRs)](docs/adr/)
+- [CHANGELOG](CHANGELOG.md)
 
 ## Como rodar
 

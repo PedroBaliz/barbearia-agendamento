@@ -79,7 +79,7 @@ Toda pessoa que entra no sistema. No Django é o modelo de usuário customizado 
 | id | inteiro | PK |
 | nome | texto (120) | obrigatório |
 | email | texto (254) | obrigatório, **único**, usado no login |
-| senha_hash | texto | gerado pelo Django (PBKDF2), nunca a senha em texto |
+| senha_hash | texto | hash **bcrypt** (`BCryptSHA256PasswordHasher` do Django, atende RNF02), nunca a senha em texto |
 | telefone | texto (20) | opcional |
 | papel | enum | `cliente`, `barbeiro` ou `admin`; padrão `cliente` |
 | ativo | booleano | padrão verdadeiro; desativar em vez de apagar |
