@@ -7,13 +7,21 @@
   <p class="text-secondary">Agende seu estilo</p>
 </div>
 
+{% if user.is_authenticated %}
+<div class="bb-cartao p-4 mb-3">
+  <h2 class="h5 mb-2">Olá, {{ user.nome }}!</h2>
+  <p class="text-secondary mb-0">Sua conta está pronta. O agendamento de horários entra nas próximas entregas.</p>
+</div>
+{% else %}
 <div class="bb-cartao p-4 mb-3">
   <h2 class="h5 mb-2">Em construção</h2>
   <p class="text-secondary mb-0">
-    Sistema de agendamento para barbearias. As telas de cadastro, login e agendamento
+    Sistema de agendamento para barbearias. Já dá para criar sua conta; login e agendamento
     entram nas próximas entregas.
   </p>
 </div>
 
-<a class="btn btn-bb w-100 py-2" href="{% url 'admin:index' %}">Painel administrativo</a>
+<a class="btn btn-bb w-100 py-2 mb-2" href="{% url 'cadastro' %}">Criar conta</a>
+{% endif %}
+<a class="btn btn-outline-secondary w-100 py-2" href="{% url 'admin:index' %}">Painel administrativo</a>
 {% endblock %}
