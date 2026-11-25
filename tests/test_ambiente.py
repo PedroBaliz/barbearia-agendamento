@@ -3,18 +3,19 @@
 import pytest
 from django.contrib.auth import get_user_model
 from django.contrib.auth.hashers import identify_hasher
+from django.test import override_settings
 from django.urls import reverse
 
 
 def test_home_responde(cliente_web):
-    resposta = cliente_web.get(reverse("home"))
+    resposta = cliente_web.get(reverse("home"), secure=True)
     assert resposta.status_code == 200
     assert "BarberBook" in resposta.content.decode()
 
 
 def test_home_e_responsiva(cliente_web):
     """RNF03: a página declara viewport para celular."""
-    html = cliente_web.get(reverse("home")).content.decode()
+    html = cliente_web.get(reverse("home"), secure=True).content.decode()
     assert 'name="viewport"' in html
 
 
@@ -55,3 +56,13 @@ def test_superusuario_e_admin():
 def test_email_obrigatorio():
     with pytest.raises(ValueError):
         get_user_model().objects.create_user(email="", password="x", nome="Sem e-mail")
+
+
+@pytest.mark.django_db
+@override_settings(SECURE_SSL_REDIRECT=True, SECURE_REDIRECT_EXEMPT=[r"^saude/$"])
+def test_http_redireciona_para_https_menos_healthcheck(cliente_web):
+    """Em produção, HTTP vai para HTTPS; o healthcheck interno do Railway (HTTP) continua respondendo."""
+    resposta = cliente_web.get(reverse("home"))
+    assert resposta.status_code == 301
+    assert resposta["Location"].startswith("https://")
+    assert cliente_web.get(reverse("saude")).status_code == 200
