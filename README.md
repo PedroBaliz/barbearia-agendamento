@@ -25,9 +25,19 @@ src/    código-fonte da aplicação
 tests/  testes automatizados
 ```
 
+## Stack
+
+Python 3.12 · Django 5 · Bootstrap 5 · PostgreSQL (SQLite em desenvolvimento) · pytest · GitHub Actions · Railway.
+Justificativa em [docs/adr/0001-stack-tecnologica.md](docs/adr/0001-stack-tecnologica.md).
+
+## Documentação
+
+- [Modelo de dados](docs/modelo-de-dados.md) — diagrama ER, dicionário de dados e regras de negócio
+- [Decisões de arquitetura (ADRs)](docs/adr/)
+
 ## Como rodar
 
-> A definir quando a stack for escolhida.
+> Instruções entram aqui junto com o primeiro código (IT2).
 
 ## Equipe
 
