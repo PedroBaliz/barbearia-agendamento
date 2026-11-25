@@ -47,6 +47,7 @@ Justificativa em [ADR 0001](docs/adr/0001-stack-tecnologica.md) e [ADR 0002 (Ver
 - [BPMN do processo (To-Be)](docs/bpmn/)
 - [Modelo de desenvolvimento](docs/modelo-de-desenvolvimento.md) — Scrum enxuto + Kanban, Definição de Pronto
 - [Modelo de dados](docs/modelo-de-dados.md) — diagrama ER, dicionário de dados e regras de negócio
+- [Arquitetura e UML](docs/arquitetura/) — casos de uso, classes, arquitetura, sequência do agendamento e rastreabilidade
 - [Protótipo de interface](docs/prototipo/)
 - [Decisões de arquitetura (ADRs)](docs/adr/)
 - [CHANGELOG](CHANGELOG.md)
