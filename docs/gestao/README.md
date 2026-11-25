@@ -92,4 +92,56 @@ O cronograma também está no [GitHub Projects](https://github.com/users/PedroBa
 | Handover | **A** | R | R | I |
 | Aceite do projeto | R | I | I | **A** |
 
+# Aceite do Projeto (A11) e Lições Aprendidas (A12)
+
+* **Projeto:** Barbearia Agendamento
+* **Pacote EAP (A03):** 1.4 | **Tarefa Cronograma (A04):** T
+* **Responsável (GP):** Lucas Agra
+* **Data de Fechamento (IT3):** 06/12/2026 · **Apresentação Única:** 07/12/2026
+
+---
+
+## 1. Checklist de Aceite Formal (A11)
+
+Critérios verificados para aprovação da versão `v1.0.0` conforme o Termo de Abertura (A01):
+
+### 1.1 Escopo Funcional (11 Requisitos *Must Have*)
+- [ ] **RF01** — Cadastro de cliente com nome, e-mail válido e senha (hash).
+- [ ] **RF02** — Login de cliente com autenticação e sessão ativa.
+- [ ] **RF03** — Login de barbeiro com redirecionamento ao painel profissional.
+- [ ] **RF04** — Cadastro de barbeiro com nome e especialidade.
+- [ ] **RF05** — Consulta de horários disponíveis por barbeiro e data (respeitando duração do serviço e expediente).
+- [ ] **RF06** — Criação de agendamento sem permitir conflito/duplicidade de horário.
+- [ ] **RF07** — Cancelamento de agendamento pelo cliente com liberação imediata do horário.
+- [ ] **RF09** — Visualização da agenda diária cronológica pelo barbeiro.
+- [ ] **RF12** — Cadastro e gestão de serviços pelo barbeiro (nome, preço e duração).
+- [ ] **RF13** — Listagem pública de serviços disponíveis com preços.
+- [ ] **RF18** — Configuração do horário de funcionamento da barbearia (dias da semana, abertura e fechamento) pelo admin.
+
+### 1.2 Critérios Técnicos, Qualidade e Documentação
+- [ ] **Cobertura de Testes:** Suíte automatizada executando via CI com cobertura **≥ 60%** (meta A01 / Issue #35).
+- [ ] **Deploy e Release:** Aplicação publicada em ambiente público funcional (PostgreSQL + Django) com tag **`v1.0.0`** (Issue #38).
+- [ ] **Rastreabilidade e Documentação:** Plano de gestão (`A01–A12`), BPMN, UML, protótipo (9 telas) e Handover (`README.md`, ADRs e roteiro de retomada) atualizados em `docs/` (Issue #39).
+- [ ] **Ensaio Cruzado:** Validação realizada entre os 3 integrantes (Lucas, Matheus e Pedro) em 06/12/2026 garantindo que todos dominam o fluxo completo para a defesa (Issue #42).
+
+### 1.3 Termo de Aceite
+* **Status do Aceite:** *(Preencher em 06/12/2026: Aprovado / Aprovado com ressalvas)*
+* **Validado por (GP):** Lucas Agra — Data: `06/12/2026`
+* **Aprovador (Patrocinador / Professor):** ___________________________ — Data: `07/12/2026`
+
+---
+
+## 2. Registro de Lições Aprendidas (A12)
+
+Consolidado das 4 lições iniciais da IT1 somadas às práticas de construção e entrega (IT2 e IT3):
+
+| ID | Fase | Categoria | O que aconteceu (Situação) | Impacto no Projeto | Ação / Recomendação para Futuros Projetos |
+| :--- | :---: | :--- | :--- | :--- | :--- |
+| **L01** | IT1 | Planejamento / Cronograma | A apresentação única em 07/12/2026 comprimiu as iterações em marcos curtos (27/11, 03/12 e 06/12) e exigiu uso de dias corridos no fim de semana (Mudança M03). | Eliminou folgas de contingência no caminho crítico e aumentou a pressão sobre os requisitos *Should*. | Definir marcos internos curtos desde o início e estabelecer regra rígida de corte de *Should* caso algum *Must* atrase. |
+| **L02** | IT1 | Processos / Requisitos | Modelar o BPMN To-Be e escrever critérios de aceitação detalhados antes de codar deixou explícitas as 4 regras de cálculo de horários livres. | Evitou retrabalho na modelagem do banco de dados e alinhou o escopo entre Analista, GP e Dev. | Nunca iniciar o desenvolvimento da regra central do negócio sem validar os critérios de aceitação e o fluxo BPMN. |
+| **L03** | IT1 | Gestão / Rastreabilidade | Centralizar o backlog no GitHub Projects vinculado às issues, labels MoSCoW e códigos da EAP (`A03`) facilitou o acompanhamento diário. | Reduziu ruído de comunicação na equipe de 3 pessoas (6 vias) e manteve visibilidade clara do WIP. | Manter automação de Kanban vinculada a Pull Requests (`Closes #ID`) e limitar tarefas simultâneas (WIP ≤ 2). |
+| **L04** | IT1 | Prototipação | A criação inicial de 5 telas no Figma seguida do complemento das 4 telas restantes padronizou a interface antes da implementação. | Agilizou a construção dos templates HTML e garantiu consistência visual entre perfis (Cliente, Barbeiro, Admin). | Validar o fluxo completo de ponta a ponta no protótipo antes de dividir as telas para codificação. |
+| **L05** | IT2 | Engenharia / Qualidade | Implementação paralela de testes automatizados junto com os requisitos *Must* e deploy antecipado (Risco R5). | Permitiu detectar falhas de integração cedo e garantiu estabilidade antes da véspera da defesa. | Configurar CI e ambiente de deploy já na primeira iteração, sem deixar infraestrutura para o final. |
+| **L06** | IT3 | Equipe / Entrega | Revisão cruzada de Pull Requests e ensaio geral da apresentação entre os 3 integrantes (mitigação do Risco R2). | Garantiu que GP, Analista e Dev dominassem tanto a gestão quanto o funcionamento técnico do sistema. | Exigir revisão de código por outro membro da equipe em todo PR e realizar ensaio técnico antes da entrega final. |
+
 Equipe de 3 pessoas → 6 vias de comunicação (n × (n − 1)): tamanho adequado (Sommerville, p. 627).
