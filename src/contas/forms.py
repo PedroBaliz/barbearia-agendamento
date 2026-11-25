@@ -1,12 +1,15 @@
 from django import forms
 from django.contrib.auth import password_validation
 from django.contrib.auth.forms import AuthenticationForm
+from django.db import transaction
 
-from .models import Usuario
+from .models import Barbeiro, Usuario
 
 
-class CadastroClienteForm(forms.ModelForm):
-    """RF01: cadastro de cliente com nome, e-mail e senha."""
+class CadastroForm(forms.ModelForm):
+    """Base dos cadastros: nome, e-mail único e senha validada, gravada só como hash."""
+
+    papel = None
 
     senha = forms.CharField(
         label="Senha",
@@ -48,10 +51,43 @@ class CadastroClienteForm(forms.ModelForm):
 
     def save(self, commit=True):
         usuario = super().save(commit=False)
-        usuario.papel = Usuario.Papel.CLIENTE
+        usuario.papel = self.papel
         usuario.set_password(self.cleaned_data["senha"])
         if commit:
             usuario.save()
+        return usuario
+
+
+class CadastroClienteForm(CadastroForm):
+    """RF01: cadastro de cliente com nome, e-mail e senha."""
+
+    papel = Usuario.Papel.CLIENTE
+
+
+class CadastroBarbeiroForm(CadastroForm):
+    """RF04: cadastro de barbeiro com nome, e-mail, senha e especialidade."""
+
+    papel = Usuario.Papel.BARBEIRO
+
+    especialidade = forms.CharField(
+        label="Especialidade",
+        max_length=120,
+        help_text="Ex.: cortes clássicos, degradê, barba.",
+    )
+    field_order = ["nome", "email", "especialidade", "senha"]
+
+    def clean_especialidade(self):
+        especialidade = self.cleaned_data["especialidade"].strip()
+        if not especialidade:
+            raise forms.ValidationError("Este campo é obrigatório.", code="required")
+        return especialidade
+
+    def save(self, commit=True):
+        if not commit:
+            raise ValueError("O cadastro de barbeiro grava usuário e perfil juntos: use commit=True.")
+        with transaction.atomic():
+            usuario = super().save(commit=True)
+            Barbeiro.objects.create(usuario=usuario, especialidade=self.cleaned_data["especialidade"])
         return usuario
 
 
