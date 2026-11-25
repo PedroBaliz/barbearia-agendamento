@@ -26,8 +26,8 @@ def cliente():
     return Usuario.objects.create_user(email="ana@exemplo.com", password=SENHA, nome="Ana Souza")
 
 
-def entrar(cliente_web, email):
-    return cliente_web.post(ENTRAR, {"username": email, "password": SENHA})
+def entrar(cliente_web, email, senha=SENHA):
+    return cliente_web.post(ENTRAR, {"username": email, "password": senha})
 
 
 def test_login_barbeiro(cliente_https, barbeiro):
@@ -92,7 +92,7 @@ def test_barbeiro_sem_perfil_nao_entra(cliente_https):
 
 def test_senha_errada_mantem_mensagem_generica(cliente_https, barbeiro):
     Barbeiro.objects.filter(usuario=barbeiro).update(ativo=False)
-    resposta = cliente_https.post(ENTRAR, {"username": "bruno@exemplo.com", "password": "errada-123"})
+    resposta = entrar(cliente_https, "bruno@exemplo.com", senha=SENHA[::-1])
     assert resposta.context["form"].non_field_errors() == ["E-mail ou senha inválidos."]
 
 
