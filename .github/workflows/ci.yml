@@ -1,0 +1,42 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  testes:
+    runs-on: ubuntu-latest
+    env:
+      SECRET_KEY: chave-somente-para-ci
+      DEBUG: "false"
+      DATABASE_URL: postgresql://barbearia:barbearia@localhost:5432/barbearia
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: barbearia
+          POSTGRES_PASSWORD: barbearia
+          POSTGRES_DB: barbearia
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd "pg_isready -U barbearia"
+          --health-interval 5s --health-timeout 5s --health-retries 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: requirements-dev.txt
+      - name: Instalar dependências
+        run: pip install -r requirements-dev.txt
+      - name: Lint (ruff)
+        run: |
+          ruff check .
+          ruff format --check .
+      - name: Migrations em dia
+        run: python src/manage.py makemigrations --check --dry-run
+      - name: Testes e cobertura (RNF04 ≥ 60%)
+        run: pytest
