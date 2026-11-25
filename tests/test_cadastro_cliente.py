@@ -1,6 +1,7 @@
 """RF01 – Como cliente, quero me cadastrar com nome, e-mail e senha (issue #1)."""
 
 import pytest
+from django.test import Client
 from django.urls import reverse
 
 from contas.models import Usuario
@@ -9,6 +10,12 @@ URL = reverse("cadastro")
 DADOS = {"nome": "Ana Souza", "email": "ana@exemplo.com", "senha": "corte-na-regua-9"}
 
 pytestmark = pytest.mark.django_db
+
+
+@pytest.fixture
+def client():
+    """Cliente sempre em HTTPS, como em produção atrás da Vercel (no CI, DEBUG=False liga o SECURE_SSL_REDIRECT)."""
+    return Client(HTTP_X_FORWARDED_PROTO="https", **{"wsgi.url_scheme": "https"})
 
 
 def test_cadastro_cliente(client):
