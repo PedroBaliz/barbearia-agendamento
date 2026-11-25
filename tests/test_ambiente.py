@@ -61,7 +61,7 @@ def test_email_obrigatorio():
 @pytest.mark.django_db
 @override_settings(SECURE_SSL_REDIRECT=True, SECURE_REDIRECT_EXEMPT=[r"^saude/$"])
 def test_http_redireciona_para_https_menos_healthcheck(cliente_web):
-    """Em produção, HTTP vai para HTTPS; o healthcheck interno do Railway (HTTP) continua respondendo."""
+    """Em produção, HTTP vai para HTTPS; monitores que chamam /saude/ por HTTP continuam recebendo 200."""
     resposta = cliente_web.get(reverse("home"))
     assert resposta.status_code == 301
     assert resposta["Location"].startswith("https://")

@@ -29,8 +29,14 @@ if not SECRET_KEY:
         raise RuntimeError("Defina SECRET_KEY no ambiente (veja .env.example).")
     SECRET_KEY = "dev-inseguro-apenas-local"
 
+# A Vercel define VERCEL=1 em todo deploy (produção e preview).
+NA_VERCEL = bool(os.getenv("VERCEL"))
+
 ALLOWED_HOSTS = env_list("ALLOWED_HOSTS", "localhost,127.0.0.1")
 CSRF_TRUSTED_ORIGINS = env_list("CSRF_TRUSTED_ORIGINS")
+if NA_VERCEL:
+    ALLOWED_HOSTS.append(".vercel.app")
+    CSRF_TRUSTED_ORIGINS.append("https://*.vercel.app")
 
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -73,12 +79,18 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "config.wsgi.application"
 
-# Banco: DATABASE_URL (PostgreSQL no Railway); sem ela, SQLite local.
+# Banco: DATABASE_URL (PostgreSQL da Vercel/Neon); sem ela, SQLite local.
 # `or` trata DATABASE_URL vazia (como no .env.example) igual a ausente.
+DATABASE_URL = os.getenv("DATABASE_URL") or ""
+if NA_VERCEL and not DATABASE_URL:
+    # O disco da Vercel é temporário: SQLite perderia os dados a cada requisição.
+    raise RuntimeError("Na Vercel, conecte um PostgreSQL (Storage → Neon) para definir DATABASE_URL.")
 DATABASES = {
     "default": dj_database_url.parse(
-        os.getenv("DATABASE_URL") or f"sqlite:///{BASE_DIR / 'db.sqlite3'}",
-        conn_max_age=600,
+        DATABASE_URL or f"sqlite:///{BASE_DIR / 'db.sqlite3'}",
+        # Serverless: sem conexões persistentes entre invocações.
+        conn_max_age=0 if NA_VERCEL else 600,
+        conn_health_checks=True,
     )
 }
 
@@ -107,16 +119,18 @@ STATIC_URL = "static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
 STORAGES = {
     "default": {"BACKEND": "django.core.files.storage.FileSystemStorage"},
-    "staticfiles": {"BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage"},
+    "staticfiles": {"BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage"},
 }
+# Sem etapa de collectstatic na Vercel: o WhiteNoise serve direto das pastas static dos apps.
+WHITENOISE_USE_FINDERS = True
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-# Atrás do proxy HTTPS do Railway.
+# Atrás do proxy HTTPS da Vercel.
 if not DEBUG:
     SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
     SECURE_SSL_REDIRECT = env_bool("SECURE_SSL_REDIRECT", True)
-    # O healthcheck interno do Railway chama /saude/ por HTTP: não redirecionar.
+    # Monitores de disponibilidade podem chamar /saude/ por HTTP: não redirecionar.
     SECURE_REDIRECT_EXEMPT = [r"^saude/$"]
     SESSION_COOKIE_SECURE = True
     CSRF_COOKIE_SECURE = True

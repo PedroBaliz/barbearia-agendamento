@@ -1,0 +1,8 @@
+.venv/
+.env
+docs/
+tests/
+.github/
+*.sqlite3
+src/staticfiles/
+**/__pycache__/
