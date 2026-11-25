@@ -2,6 +2,8 @@
 
 Sistema web de agendamento para barbearias — Projeto Integrador Ciclo 2 de Engenharia de Software (CEUB, 2026/2).
 
+🌐 **Site:** <https://barbearia-agendamento-phi.vercel.app>
+
 ## Problema
 
 Barbearias pequenas controlam horários por WhatsApp ou caderno, o que gera conflitos de agenda, faltas e perda de clientes. O sistema permite que o cliente veja horários livres e agende sozinho, e que o barbeiro gerencie a própria agenda.
@@ -35,6 +37,7 @@ Justificativa em [ADR 0001](docs/adr/0001-stack-tecnologica.md) e [ADR 0002 (Ver
 
 ## Documentação
 
+- [Configuração do ambiente](docs/ambiente.md) — como rodar, variáveis, CI, deploy na Vercel
 - [Entrega da IT1 – Jornada e planejamento](docs/entregas/IT1-jornada-e-planejamento.md) — resumo da fase e mapa dos artefatos
 - [Plano de gestão A01–A12](docs/gestao/) — TAP, EAP, cronograma, RACI, riscos (Kit de Artefatos preenchido)
 - [BPMN do processo (To-Be)](docs/bpmn/)

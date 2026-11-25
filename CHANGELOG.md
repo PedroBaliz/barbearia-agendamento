@@ -2,6 +2,25 @@
 
 Mudanças relevantes de cada versão. O formato segue o [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/) e as versões seguem o [Versionamento Semântico](https://semver.org/lang/pt-BR/).
 
+## [0.2.0] – 2026-11-25 · Ambiente, CI e deploy
+
+Primeira versão com código: o ambiente completo, com o site no ar em <https://barbearia-agendamento-phi.vercel.app>. Guia: [docs/ambiente.md](docs/ambiente.md). Fecha a issue #34.
+
+### Adicionado
+
+- Projeto Django 5.2 em `src/` (`config`, `contas`, `core`), configurado por variáveis de ambiente (`.env.example`).
+- Usuário customizado com login por e-mail e papéis cliente, barbeiro e admin (tabela `usuario` do modelo de dados).
+- Senhas com bcrypt (RNF02), página inicial responsiva no visual do protótipo (RNF03) e healthcheck `/saude/`.
+- Testes com pytest + pytest-django e cobertura mínima de 60% (RNF04); lint e formatação com ruff.
+- GitHub Actions: lint, checagem de migrations e testes contra PostgreSQL; job que aplica as migrations em produção a cada merge na `main`.
+- Deploy na Vercel com PostgreSQL Neon; preview automático por pull request.
+- ADR 0002 – Hospedagem na Vercel; guia `docs/ambiente.md`.
+
+### Alterado
+
+- Hospedagem prevista no ADR 0001 (Railway) substituída pela Vercel (mudança M04 do plano de gestão).
+- Cronograma reajustado para a apresentação única em 07/12/2026 (mudança M03).
+
 ## [0.1.0] – 2026-11-25 · IT1 – Jornada e planejamento
 
 Primeira versão. Contém só documentação, sem código ainda. Resumo da fase: [docs/entregas/IT1-jornada-e-planejamento.md](docs/entregas/IT1-jornada-e-planejamento.md).
@@ -16,4 +35,5 @@ Primeira versão. Contém só documentação, sem código ainda. Resumo da fase:
 - Modelo de desenvolvimento: iterativo e incremental, Scrum enxuto + Kanban, Definição de Pronto.
 - Protótipo de interface (`docs/prototipo/`).
 
+[0.2.0]: https://github.com/PedroBaliz/barbearia-agendamento/releases/tag/v0.2.0
 [0.1.0]: https://github.com/PedroBaliz/barbearia-agendamento/releases/tag/v0.1.0
