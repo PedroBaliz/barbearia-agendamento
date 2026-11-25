@@ -22,9 +22,10 @@ def test_vercel_sem_banco_falha_com_mensagem_clara():
 
 
 def test_vercel_aceita_dominios_vercel_e_expoe_app_wsgi():
+    """A Vercel carrega src/config/wsgi.py direto da raiz do repositório."""
     codigo = (
-        "import api.index as entrada; from django.conf import settings; "
-        "assert callable(entrada.app); "
+        "import runpy; m = runpy.run_path('src/config/wsgi.py'); from django.conf import settings; "
+        "assert callable(m['application']) and callable(m['app']); "
         "assert '.vercel.app' in settings.ALLOWED_HOSTS; "
         "assert 'https://*.vercel.app' in settings.CSRF_TRUSTED_ORIGINS; "
         "assert settings.DATABASES['default']['CONN_MAX_AGE'] == 0; "

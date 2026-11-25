@@ -1,16 +1,21 @@
-"""
-WSGI config for config project.
+"""Configuração WSGI: expõe ``application`` para o servidor (Vercel ou outro).
 
-It exposes the WSGI callable as a module-level variable named ``application``.
-
-For more information on this file, see
-https://docs.djangoproject.com/en/5.2/howto/deployment/wsgi/
+A Vercel detecta o Django e carrega este arquivo direto, a partir da raiz do
+repositório. Por isso a pasta src/ é colocada no caminho de importação aqui,
+para que ``config``, ``contas`` e ``core`` sejam encontrados.
 """
 
 import os
+import sys
+from pathlib import Path
 
-from django.core.wsgi import get_wsgi_application
+PASTA_SRC = str(Path(__file__).resolve().parent.parent)
+if PASTA_SRC not in sys.path:
+    sys.path.insert(0, PASTA_SRC)
+
+from django.core.wsgi import get_wsgi_application  # noqa: E402
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings")
 
 application = get_wsgi_application()
+app = application  # nome que o runtime Python da Vercel também procura

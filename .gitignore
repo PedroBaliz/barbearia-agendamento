@@ -30,3 +30,5 @@ Thumbs.db
 # Django
 src/staticfiles/
 media/
+.vercel
+.env*
