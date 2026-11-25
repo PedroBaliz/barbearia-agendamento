@@ -79,7 +79,7 @@ O GitHub Actions roda lint, checagem de migrations e testes contra PostgreSQL a 
 
 ## Deploy
 
-**Vercel** ([ADR 0002](docs/adr/0002-hospedagem-vercel.md)). O Django roda como função serverless (`api/index.py` + `vercel.json`) e o banco é um PostgreSQL da Vercel Storage (Neon).
+**Vercel** ([ADR 0002](docs/adr/0002-hospedagem-vercel.md)). A Vercel detecta o Django sozinha e roda `src/config/wsgi.py` como função serverless. As dependências são instaladas pelo `pyproject.toml` (mantenha-o igual ao `requirements.txt`). O banco é um PostgreSQL da Vercel Storage (Neon).
 
 1. Na Vercel, importe o repositório e, em **Storage**, crie um banco **Neon** ligado ao projeto. Isso define `DATABASE_URL`.
 2. Em **Settings → Environment Variables**, defina `SECRET_KEY` e `DEBUG=false`. Os domínios `*.vercel.app` já são aceitos automaticamente.

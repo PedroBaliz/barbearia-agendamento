@@ -20,7 +20,7 @@ A Vercel roda Python como **funções serverless**. Para um Django isso muda tr�
 
 | Ponto | Como fica |
 |---|---|
-| Aplicação | Função Python da Vercel: `api/index.py` expõe o WSGI do Django; `vercel.json` manda todas as rotas para ela |
+| Aplicação | Suporte nativo da Vercel a Django: ela detecta o `manage.py`, lê o `WSGI_APPLICATION` e roda `src/config/wsgi.py` como função. Dependências vêm do `pyproject.toml` |
 | Banco | PostgreSQL pela **Vercel Storage (Neon)**, que injeta `DATABASE_URL` no projeto |
 | Arquivos estáticos | WhiteNoise servindo direto das pastas dos apps (`WHITENOISE_USE_FINDERS`), sem `collectstatic` |
 | Migrations | Job `migrations-producao` no GitHub Actions, a cada merge na `main` (secret `DATABASE_URL_PRODUCAO`) |
