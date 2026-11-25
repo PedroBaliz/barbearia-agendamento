@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_Barbearia" targetNamespace="https://github.com/PedroBaliz/barbearia-agendamento">
+  <bpmn:collaboration id="Collaboration_1">
+    <bpmn:participant id="Participant_1" name="Agendamento na barbearia (To-Be)" processRef="Process_Agendamento" />
+  </bpmn:collaboration>
+  <bpmn:process id="Process_Agendamento" name="Agendamento na barbearia" isExecutable="false">
+    <bpmn:laneSet id="LaneSet_1">
+      <bpmn:lane id="Lane_Cliente" name="Cliente">
+        <bpmn:flowNodeRef>Start</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>T_Acessar</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>T_Selecionar</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>T_Receber</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>End_Cliente</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_Sistema" name="Sistema">
+        <bpmn:flowNodeRef>T_Verificar</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>G_Livre</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>T_Registrar</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P_Split</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_Barbearia" name="Barbearia">
+        <bpmn:flowNodeRef>T_Visualizar</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Timer</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>G_Compareceu</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>T_Falta</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>T_Atender</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>G_Junta</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>T_Status</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>End</bpmn:flowNodeRef>
+      </bpmn:lane>
+    </bpmn:laneSet>
+    <bpmn:startEvent id="Start" name="Cliente quer agendar">
+      <bpmn:outgoing>Flow_1</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:task id="T_Acessar" name="Acessar plataforma e escolher serviço e barbeiro">
+      <bpmn:incoming>Flow_1</bpmn:incoming>
+      <bpmn:outgoing>Flow_2</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:task id="T_Selecionar" name="Selecionar data e horário desejados">
+      <bpmn:incoming>Flow_2</bpmn:incoming>
+      <bpmn:incoming>Flow_5</bpmn:incoming>
+      <bpmn:outgoing>Flow_3</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:task id="T_Verificar" name="Verificar disponibilidade na agenda">
+      <bpmn:incoming>Flow_3</bpmn:incoming>
+      <bpmn:outgoing>Flow_4</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:exclusiveGateway id="G_Livre" name="Horário livre?">
+      <bpmn:incoming>Flow_4</bpmn:incoming>
+      <bpmn:outgoing>Flow_5</bpmn:outgoing>
+      <bpmn:outgoing>Flow_6</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:task id="T_Registrar" name="Registrar agendamento e reservar horário">
+      <bpmn:incoming>Flow_6</bpmn:incoming>
+      <bpmn:outgoing>Flow_7</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:parallelGateway id="P_Split">
+      <bpmn:incoming>Flow_7</bpmn:incoming>
+      <bpmn:outgoing>Flow_8</bpmn:outgoing>
+      <bpmn:outgoing>Flow_10</bpmn:outgoing>
+    </bpmn:parallelGateway>
+    <bpmn:task id="T_Receber" name="Receber confirmação do agendamento">
+      <bpmn:incoming>Flow_8</bpmn:incoming>
+      <bpmn:outgoing>Flow_9</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:endEvent id="End_Cliente" name="Agendamento confirmado">
+      <bpmn:incoming>Flow_9</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:task id="T_Visualizar" name="Visualizar agendamento na agenda">
+      <bpmn:incoming>Flow_10</bpmn:incoming>
+      <bpmn:outgoing>Flow_11</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:intermediateCatchEvent id="Timer" name="Chega o horário agendado">
+      <bpmn:incoming>Flow_11</bpmn:incoming>
+      <bpmn:outgoing>Flow_12</bpmn:outgoing>
+      <bpmn:timerEventDefinition id="TimerDef_1" />
+    </bpmn:intermediateCatchEvent>
+    <bpmn:exclusiveGateway id="G_Compareceu" name="Cliente compareceu?">
+      <bpmn:incoming>Flow_12</bpmn:incoming>
+      <bpmn:outgoing>Flow_13</bpmn:outgoing>
+      <bpmn:outgoing>Flow_14</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:task id="T_Falta" name="Registrar falta (no-show)">
+      <bpmn:incoming>Flow_13</bpmn:incoming>
+      <bpmn:outgoing>Flow_15</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:task id="T_Atender" name="Realizar atendimento">
+      <bpmn:incoming>Flow_14</bpmn:incoming>
+      <bpmn:outgoing>Flow_16</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:exclusiveGateway id="G_Junta">
+      <bpmn:incoming>Flow_15</bpmn:incoming>
+      <bpmn:incoming>Flow_16</bpmn:incoming>
+      <bpmn:outgoing>Flow_17</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:task id="T_Status" name="Atualizar status na agenda">
+      <bpmn:incoming>Flow_17</bpmn:incoming>
+      <bpmn:outgoing>Flow_18</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:endEvent id="End" name="Atendimento encerrado">
+      <bpmn:incoming>Flow_18</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_1" sourceRef="Start" targetRef="T_Acessar" />
+    <bpmn:sequenceFlow id="Flow_2" sourceRef="T_Acessar" targetRef="T_Selecionar" />
+    <bpmn:sequenceFlow id="Flow_3" sourceRef="T_Selecionar" targetRef="T_Verificar" />
+    <bpmn:sequenceFlow id="Flow_4" sourceRef="T_Verificar" targetRef="G_Livre" />
+    <bpmn:sequenceFlow id="Flow_5" name="Não" sourceRef="G_Livre" targetRef="T_Selecionar" />
+    <bpmn:sequenceFlow id="Flow_6" name="Sim" sourceRef="G_Livre" targetRef="T_Registrar" />
+    <bpmn:sequenceFlow id="Flow_7" sourceRef="T_Registrar" targetRef="P_Split" />
+    <bpmn:sequenceFlow id="Flow_8" sourceRef="P_Split" targetRef="T_Receber" />
+    <bpmn:sequenceFlow id="Flow_9" sourceRef="T_Receber" targetRef="End_Cliente" />
+    <bpmn:sequenceFlow id="Flow_10" sourceRef="P_Split" targetRef="T_Visualizar" />
+    <bpmn:sequenceFlow id="Flow_11" sourceRef="T_Visualizar" targetRef="Timer" />
+    <bpmn:sequenceFlow id="Flow_12" sourceRef="Timer" targetRef="G_Compareceu" />
+    <bpmn:sequenceFlow id="Flow_13" name="Não" sourceRef="G_Compareceu" targetRef="T_Falta" />
+    <bpmn:sequenceFlow id="Flow_14" name="Sim" sourceRef="G_Compareceu" targetRef="T_Atender" />
+    <bpmn:sequenceFlow id="Flow_15" sourceRef="T_Falta" targetRef="G_Junta" />
+    <bpmn:sequenceFlow id="Flow_16" sourceRef="T_Atender" targetRef="G_Junta" />
+    <bpmn:sequenceFlow id="Flow_17" sourceRef="G_Junta" targetRef="T_Status" />
+    <bpmn:sequenceFlow id="Flow_18" sourceRef="T_Status" targetRef="End" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_1">
+      <bpmndi:BPMNShape id="Participant_1_di" bpmnElement="Participant_1" isHorizontal="true"><dc:Bounds x="100" y="40" width="1780" height="540" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_Cliente_di" bpmnElement="Lane_Cliente" isHorizontal="true"><dc:Bounds x="130" y="40" width="1750" height="180" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_Sistema_di" bpmnElement="Lane_Sistema" isHorizontal="true"><dc:Bounds x="130" y="220" width="1750" height="180" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_Barbearia_di" bpmnElement="Lane_Barbearia" isHorizontal="true"><dc:Bounds x="130" y="400" width="1750" height="180" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Start_di" bpmnElement="Start"><dc:Bounds x="185" y="112" width="36" height="36" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="T_Acessar_di" bpmnElement="T_Acessar"><dc:Bounds x="240" y="95" width="140" height="70" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="T_Selecionar_di" bpmnElement="T_Selecionar"><dc:Bounds x="430" y="95" width="140" height="70" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="T_Verificar_di" bpmnElement="T_Verificar"><dc:Bounds x="430" y="275" width="140" height="70" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="G_Livre_di" bpmnElement="G_Livre" isMarkerVisible="true"><dc:Bounds x="620" y="285" width="50" height="50" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="T_Registrar_di" bpmnElement="T_Registrar"><dc:Bounds x="720" y="275" width="140" height="70" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="P_Split_di" bpmnElement="P_Split"><dc:Bounds x="900" y="285" width="50" height="50" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="T_Receber_di" bpmnElement="T_Receber"><dc:Bounds x="980" y="95" width="140" height="70" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="End_Cliente_di" bpmnElement="End_Cliente"><dc:Bounds x="1172" y="112" width="36" height="36" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="T_Visualizar_di" bpmnElement="T_Visualizar"><dc:Bounds x="980" y="455" width="140" height="70" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Timer_di" bpmnElement="Timer"><dc:Bounds x="1172" y="472" width="36" height="36" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="G_Compareceu_di" bpmnElement="G_Compareceu" isMarkerVisible="true"><dc:Bounds x="1260" y="465" width="50" height="50" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="T_Falta_di" bpmnElement="T_Falta"><dc:Bounds x="1360" y="413" width="140" height="70" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="T_Atender_di" bpmnElement="T_Atender"><dc:Bounds x="1360" y="497" width="140" height="70" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="G_Junta_di" bpmnElement="G_Junta" isMarkerVisible="true"><dc:Bounds x="1550" y="465" width="50" height="50" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="T_Status_di" bpmnElement="T_Status"><dc:Bounds x="1630" y="455" width="140" height="70" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="End_di" bpmnElement="End"><dc:Bounds x="1812" y="472" width="36" height="36" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_1_di" bpmnElement="Flow_1"><di:waypoint x="221" y="130" /><di:waypoint x="240" y="130" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_2_di" bpmnElement="Flow_2"><di:waypoint x="380" y="130" /><di:waypoint x="430" y="130" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_3_di" bpmnElement="Flow_3"><di:waypoint x="500" y="165" /><di:waypoint x="500" y="275" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_4_di" bpmnElement="Flow_4"><di:waypoint x="570" y="310" /><di:waypoint x="620" y="310" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_5_di" bpmnElement="Flow_5"><di:waypoint x="645" y="285" /><di:waypoint x="645" y="130" /><di:waypoint x="570" y="130" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_6_di" bpmnElement="Flow_6"><di:waypoint x="670" y="310" /><di:waypoint x="720" y="310" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_7_di" bpmnElement="Flow_7"><di:waypoint x="860" y="310" /><di:waypoint x="900" y="310" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_8_di" bpmnElement="Flow_8"><di:waypoint x="925" y="285" /><di:waypoint x="925" y="130" /><di:waypoint x="980" y="130" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_9_di" bpmnElement="Flow_9"><di:waypoint x="1120" y="130" /><di:waypoint x="1172" y="130" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_10_di" bpmnElement="Flow_10"><di:waypoint x="925" y="335" /><di:waypoint x="925" y="490" /><di:waypoint x="980" y="490" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_11_di" bpmnElement="Flow_11"><di:waypoint x="1120" y="490" /><di:waypoint x="1172" y="490" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_12_di" bpmnElement="Flow_12"><di:waypoint x="1208" y="490" /><di:waypoint x="1260" y="490" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_13_di" bpmnElement="Flow_13"><di:waypoint x="1285" y="465" /><di:waypoint x="1285" y="448" /><di:waypoint x="1360" y="448" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_14_di" bpmnElement="Flow_14"><di:waypoint x="1285" y="515" /><di:waypoint x="1285" y="532" /><di:waypoint x="1360" y="532" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_15_di" bpmnElement="Flow_15"><di:waypoint x="1500" y="448" /><di:waypoint x="1575" y="448" /><di:waypoint x="1575" y="465" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_16_di" bpmnElement="Flow_16"><di:waypoint x="1500" y="532" /><di:waypoint x="1575" y="532" /><di:waypoint x="1575" y="515" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_17_di" bpmnElement="Flow_17"><di:waypoint x="1600" y="490" /><di:waypoint x="1630" y="490" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_18_di" bpmnElement="Flow_18"><di:waypoint x="1770" y="490" /><di:waypoint x="1812" y="490" /></bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
