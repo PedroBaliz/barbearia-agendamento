@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block titulo %}Meu painel · BarberBook{% endblock %}
+
+{% block conteudo %}
+<p class="text-secondary small mb-1">{{ hoje|date:"l, d \d\e F" }}</p>
+<h1 class="h3 fw-bold mb-0">Olá, {{ user.nome }}</h1>
+<p class="text-bb mb-4">{{ user.barbeiro.especialidade }}</p>
+
+<div class="bb-cartao p-4 mb-3">
+  <h2 class="h5 mb-2">Agenda do dia</h2>
+  <p class="text-secondary mb-0">Nenhum agendamento para hoje. A agenda completa entra com o RF09.</p>
+</div>
+
+<a class="btn btn-outline-secondary w-100 py-2 mb-2" href="{% url 'minha_conta' %}">Minha conta</a>
+<form method="post" action="{% url 'sair' %}">
+  {% csrf_token %}
+  <button type="submit" class="btn btn-link text-secondary w-100">Sair</button>
+</form>
+{% endblock %}

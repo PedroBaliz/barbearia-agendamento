@@ -60,6 +60,18 @@ class Usuario(AbstractUser):
     def __str__(self):
         return f"{self.nome} <{self.email}>"
 
+    @property
+    def barbeiro_ativo(self):
+        """True se é barbeiro com perfil de barbeiro ativo (acesso ao painel, RF03)."""
+        if self.papel != self.Papel.BARBEIRO:
+            return False
+        perfil = getattr(self, "barbeiro", None)
+        return perfil is not None and perfil.ativo
+
+    def destino_inicial(self):
+        """Nome da URL para onde o usuário vai depois de entrar ou se cadastrar."""
+        return "painel_barbeiro" if self.barbeiro_ativo else "home"
+
 
 class BarbeiroQuerySet(models.QuerySet):
     def disponiveis(self):
