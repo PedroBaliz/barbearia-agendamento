@@ -2,7 +2,9 @@
 
 Mudanças relevantes de cada versão. O formato segue o [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/) e as versões seguem o [Versionamento Semântico](https://semver.org/lang/pt-BR/).
 
-## [Não lançado] – rumo à 0.3.0 · Cadastro e acesso
+## [0.3.0] – 2026-11-25 · Cadastro e acesso
+
+Primeiros requisitos funcionais: os 4 Must de cadastro e acesso (RF01–RF04). Cliente e barbeiro criam conta, entram e saem, e o barbeiro tem um painel próprio. Fecha as issues #1, #2, #3 e #4.
 
 ### Adicionado
 
@@ -10,6 +12,16 @@ Mudanças relevantes de cada versão. O formato segue o [Keep a Changelog](https
 - RF02: login por e-mail e senha em `/contas/entrar/`, logout por POST em `/contas/sair/` e página restrita `/contas/minha-conta/` (#2).
 - RF04: cadastro de barbeiro em `/contas/cadastro/barbeiro/` com especialidade; tabela `barbeiro` (migration `0002_barbeiro`) e `Barbeiro.objects.disponiveis()` para o agendamento (#4).
 - RF03: barbeiro entra pelo mesmo login e vai para o painel `/barbeiro/`; cliente ou barbeiro com perfil inativo recebem 403 no painel; página 403 no visual do sistema (#3).
+- Testes de aceitação por requisito (`tests/test_cadastro_cliente.py`, `test_login_cliente.py`, `test_cadastro_barbeiro.py`, `test_login_barbeiro.py`): 55 testes, cobertura de ~95%.
+
+### Alterado
+
+- Home: botões Entrar e Criar conta para visitantes; Minha conta, Meu painel (barbeiro) e Sair para quem está logado. O botão do painel administrativo só aparece para staff.
+- Testes de tela rodam em HTTPS (fixture `cliente_https`), como em produção atrás da Vercel.
+
+### Segurança
+
+- Login com mensagem única "E-mail ou senha inválidos" (não revela se o e-mail existe), logout só por POST e `next` restrito ao próprio site.
 
 ## [0.2.0] – 2026-11-25 · Ambiente, CI e deploy
 
@@ -44,5 +56,6 @@ Primeira versão. Contém só documentação, sem código ainda. Resumo da fase:
 - Modelo de desenvolvimento: iterativo e incremental, Scrum enxuto + Kanban, Definição de Pronto.
 - Protótipo de interface (`docs/prototipo/`).
 
+[0.3.0]: https://github.com/PedroBaliz/barbearia-agendamento/releases/tag/v0.3.0
 [0.2.0]: https://github.com/PedroBaliz/barbearia-agendamento/releases/tag/v0.2.0
 [0.1.0]: https://github.com/PedroBaliz/barbearia-agendamento/releases/tag/v0.1.0
