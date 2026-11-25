@@ -4,6 +4,7 @@
 **Disciplina:** Engenharia de Software · CEUB · Turma B · 2026/2
 **Versão do repositório:** [`v0.1.0`](https://github.com/PedroBaliz/barbearia-agendamento/releases/tag/v0.1.0)
 **Critérios observados nesta iteração:** C1, C2, C3 e C6
+**Apresentação:** única, em 07/12/2026 (IT1, IT2 e IT3 juntas). Marcos internos: IT1 27/11 · IT2 03/12 · IT3 06/12
 
 Este documento resume o que a equipe produziu na primeira iteração, onde está cada artefato e como eles se ligam. A ideia é que dê para seguir o caminho **problema → processo → requisitos → projeto** abrindo os links em ordem.
 
@@ -131,11 +132,11 @@ Esta release marca a documentação produzida até agora. Os itens abaixo ainda 
 
 | Pendência | Critério | Previsão |
 |---|---|---|
-| Diagramas UML (casos de uso e classes) e diagrama de arquitetura | C3 | Antes da apresentação da IT1 |
-| TAP, EAP, cronograma e matriz de riscos (Kit de Artefatos) | C6 | Antes da apresentação da IT1 |
-| Linha do tempo da jornada (Ficha 1) | C1 | Antes da apresentação da IT1 |
+| Diagramas UML (casos de uso e classes) e diagrama de arquitetura | C3 | Até 27/11 (marco IT1) |
+| TAP, EAP, cronograma e matriz de riscos (Kit de Artefatos) | C6 | Até 27/11 (marco IT1) |
+| Linha do tempo da jornada (Ficha 1) | C1 | Até 27/11 (marco IT1) |
 | Decidir o registro de falta (no-show): criar RF19 ou retirar do BPMN | C2 | Próxima reunião da equipe |
-| Telas que faltam no protótipo: cadastro (RF01/RF04), meus agendamentos/cancelar (RF07), cadastro de serviços (RF12), além dos ajustes listados | C3 | Antes da apresentação da IT1 |
+| Telas que faltam no protótipo: cadastro (RF01/RF04), meus agendamentos/cancelar (RF07), cadastro de serviços (RF12), além dos ajustes listados | C3 | Até 27/11 (marco IT1) |
 | Matriz de rastreabilidade preenchida (RF → tela → teste) | C1 | Ao longo da IT2, conforme o código e os testes forem saindo |
 
 ## 8. Próxima iteração (IT2 – Construção e qualidade)

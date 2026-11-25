@@ -9,7 +9,7 @@
 
 | Fator | Situação do projeto |
 |---|---|
-| Prazo | Um ciclo (out–dez 2026), dividido pelo professor em 3 iterações com entrega e apresentação |
+| Prazo | Um ciclo (out–dez 2026), com 3 iterações e **uma apresentação única em 07/12/2026** |
 | Equipe | 3 estudantes, em tempo parcial, com outras disciplinas |
 | Requisitos | 18 RF já levantados e priorizados (MoSCoW), mas detalhes de tela e regra vão mudar ao ver o MVP rodando |
 | Cliente | Barbearia (usuário real) disponível para dar retorno pontual |
@@ -24,10 +24,10 @@ As três iterações do professor já impõem entregas parciais. Um modelo **cas
 | Prática | Como fazemos | Adaptação e motivo |
 |---|---|---|
 | Product Backlog | Issues RF01–RF18 no GitHub Projects, com MoSCoW e critérios de aceitação | — |
-| Sprint | **1 semana**; cada iteração do professor tem de 3 a 4 sprints | Sprints de 2 a 4 semanas não caberiam nas iterações |
-| Sprint Planning | 20 min no início da semana: issues saem de *Todo* para a sprint | Reunião curta, cabe na rotina |
+| Sprint | **Curta (3 a 4 dias)**; uma sprint por iteração | O prazo até 07/12 não comporta sprints de 2 a 4 semanas |
+| Sprint Planning | 20 min no início de cada sprint: issues saem de *Todo* para a sprint | Reunião curta, cabe na rotina |
 | Daily | **Assíncrona** no canal da equipe: fiz / vou fazer / travado | Equipe não se encontra todo dia |
-| Sprint Review | Na própria apresentação de cada iteração e numa demo semanal curta | — |
+| Sprint Review | Demo curta no fim de cada sprint (27/11, 03/12, 06/12); a apresentação final é em 07/12 | Só há uma apresentação formal |
 | Retrospectiva | 15 min no fim da sprint; lições registradas no caderno | Alimenta as lições aprendidas (C7) |
 | Papéis | Sem Scrum Master dedicado: o dono de *Gestão e Jornada* facilita as reuniões | 3 pessoas não comportam papéis exclusivos |
 
@@ -51,9 +51,10 @@ Uma issue só vai para *Done* quando:
 
 | Iteração | Sprints | Foco |
 |---|---|---|
-| IT1 – Jornada e planejamento | — | Artefatos: BPMN, requisitos, modelo de dados, protótipo, TAP/EAP/riscos |
-| IT2 – Construção e qualidade | 3 a 4 semanais | Must do backlog (RF01–07, 09, 12, 13, 18), testes e pipeline |
-| IT3 – Entrega e sustentação | 2 a 3 semanais | Should/Could se houver folga, release, README, ADRs, lições aprendidas |
+| IT1 – Jornada e planejamento | até 27/11 | Artefatos: BPMN, requisitos, modelo de dados, protótipo, plano de gestão, UML |
+| IT2 – Construção e qualidade | 30/11 → 03/12 | Must do backlog (RF01–07, 09, 12, 13, 18), testes e pipeline |
+| IT3 – Entrega e sustentação | 04/12 → 06/12 | Should (RF08, 10, 11, 16, 17), deploy, release, README, ADRs, lições aprendidas |
+| **Apresentação final** | **07/12** | Todas as iterações apresentadas juntas |
 
 O progresso é medido pelo **burndown** de issues por iteração (C6).
 
