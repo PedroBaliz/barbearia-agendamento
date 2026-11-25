@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block titulo %}Minha conta · BarberBook{% endblock %}
+
+{% block conteudo %}
+<h1 class="h3 fw-bold mb-3">Minha conta</h1>
+<div class="bb-cartao p-4 mb-3">
+  <dl class="mb-0">
+    <dt class="text-secondary small">Nome</dt><dd>{{ user.nome }}</dd>
+    <dt class="text-secondary small">E-mail</dt><dd>{{ user.email }}</dd>
+    <dt class="text-secondary small">Perfil</dt><dd class="mb-0">{{ user.get_papel_display }}</dd>
+  </dl>
+</div>
+<a class="btn btn-outline-secondary w-100 py-2" href="{% url 'home' %}">Voltar ao início</a>
+{% endblock %}

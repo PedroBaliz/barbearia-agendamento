@@ -10,18 +10,27 @@
 {% if user.is_authenticated %}
 <div class="bb-cartao p-4 mb-3">
   <h2 class="h5 mb-2">Olá, {{ user.nome }}!</h2>
-  <p class="text-secondary mb-0">Sua conta está pronta. O agendamento de horários entra nas próximas entregas.</p>
+  <p class="text-secondary mb-0">Você está logado. O agendamento de horários entra nas próximas entregas.</p>
 </div>
+
+<a class="btn btn-outline-secondary w-100 py-2 mb-2" href="{% url 'minha_conta' %}">Minha conta</a>
+{% if user.is_staff %}
+<a class="btn btn-outline-secondary w-100 py-2 mb-2" href="{% url 'admin:index' %}">Painel administrativo</a>
+{% endif %}
+<form method="post" action="{% url 'sair' %}">
+  {% csrf_token %}
+  <button type="submit" class="btn btn-link text-secondary w-100">Sair</button>
+</form>
 {% else %}
 <div class="bb-cartao p-4 mb-3">
   <h2 class="h5 mb-2">Em construção</h2>
   <p class="text-secondary mb-0">
-    Sistema de agendamento para barbearias. Já dá para criar sua conta; login e agendamento
-    entram nas próximas entregas.
+    Sistema de agendamento para barbearias. Crie sua conta ou entre; o agendamento
+    de horários entra nas próximas entregas.
   </p>
 </div>
 
-<a class="btn btn-bb w-100 py-2 mb-2" href="{% url 'cadastro' %}">Criar conta</a>
+<a class="btn btn-bb w-100 py-2 mb-2" href="{% url 'entrar' %}">Entrar</a>
+<a class="btn btn-outline-secondary w-100 py-2" href="{% url 'cadastro' %}">Criar conta</a>
 {% endif %}
-<a class="btn btn-outline-secondary w-100 py-2" href="{% url 'admin:index' %}">Painel administrativo</a>
 {% endblock %}

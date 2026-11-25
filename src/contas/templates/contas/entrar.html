@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block titulo %}Entrar · BarberBook{% endblock %}
+
+{% block conteudo %}
+<div class="text-center mb-4">
+  <span class="bb-logo">B</span>
+  <h1 class="h2 fw-bold mt-3 mb-0">BarberBook</h1>
+  <p class="text-secondary">Agende seu estilo</p>
+</div>
+
+<form method="post" class="bb-cartao p-4 mb-3" novalidate>
+  {% csrf_token %}
+  {% if form.non_field_errors %}
+  <div class="alert alert-danger py-2" role="alert">{{ form.non_field_errors|join:" " }}</div>
+  {% endif %}
+  {% for campo in form %}
+  {% include "partials/campo.html" %}
+  {% endfor %}
+  <input type="hidden" name="next" value="{{ next }}">
+  <button type="submit" class="btn btn-bb w-100 py-2">Entrar</button>
+</form>
+
+<p class="text-center text-secondary mb-0">Não tem conta? <a class="text-bb" href="{% url 'cadastro' %}">Cadastre-se</a></p>
+{% endblock %}

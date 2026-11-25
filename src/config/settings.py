@@ -96,6 +96,9 @@ DATABASES = {
 
 # Usuário customizado com login por e-mail (modelo de dados: tabela usuario).
 AUTH_USER_MODEL = "contas.Usuario"
+LOGIN_URL = "entrar"
+LOGIN_REDIRECT_URL = "home"
+LOGOUT_REDIRECT_URL = "home"
 
 # RNF02: senhas com hash bcrypt.
 PASSWORD_HASHERS = [
