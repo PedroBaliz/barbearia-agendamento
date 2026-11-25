@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block titulo %}Criar conta · BarberBook{% endblock %}
+
+{% block conteudo %}
+<div class="text-center mb-4">
+  <span class="bb-logo">B</span>
+  <h1 class="h2 fw-bold mt-3 mb-0">Criar conta</h1>
+  <p class="text-secondary">Cadastre-se para agendar seu horário</p>
+</div>
+
+<form method="post" class="bb-cartao p-4 mb-3" novalidate>
+  {% csrf_token %}
+  {% for campo in form %}
+  <div class="mb-3">
+    <label class="form-label" for="{{ campo.id_for_label }}">{{ campo.label }}</label>
+    <input type="{{ campo.field.widget.input_type }}" name="{{ campo.html_name }}" id="{{ campo.id_for_label }}"
+           class="form-control{% if campo.errors %} is-invalid{% endif %}"
+           {% if campo.field.widget.input_type != "password" %}value="{{ campo.value|default_if_none:'' }}"{% endif %}
+           {% if campo.field.widget.attrs.autocomplete %}autocomplete="{{ campo.field.widget.attrs.autocomplete }}"{% endif %}
+           {% if campo.errors %}aria-describedby="{{ campo.id_for_label }}-erro"{% endif %} required>
+    {% if campo.errors %}
+    <div class="invalid-feedback" id="{{ campo.id_for_label }}-erro">{{ campo.errors|join:" " }}</div>
+    {% elif campo.help_text %}
+    <div class="form-text">{{ campo.help_text }}</div>
+    {% endif %}
+  </div>
+  {% endfor %}
+  <button type="submit" class="btn btn-bb w-100 py-2">Criar conta</button>
+</form>
+
+<p class="text-center text-secondary mb-0"><a class="text-bb" href="{% url 'home' %}">Voltar ao início</a></p>
+{% endblock %}

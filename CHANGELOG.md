@@ -2,6 +2,12 @@
 
 Mudanças relevantes de cada versão. O formato segue o [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/) e as versões seguem o [Versionamento Semântico](https://semver.org/lang/pt-BR/).
 
+## [Não lançado] – rumo à 0.3.0 · Cadastro e acesso
+
+### Adicionado
+
+- RF01: cadastro de cliente em `/contas/cadastro/` com nome, e-mail e senha; a conta nasce com papel cliente e o usuário entra logado (#1).
+
 ## [0.2.0] – 2026-11-25 · Ambiente, CI e deploy
 
 Primeira versão com código: o ambiente completo, com o site no ar em <https://barbearia-agendamento-phi.vercel.app>. Guia: [docs/ambiente.md](docs/ambiente.md). Fecha a issue #34.
