@@ -88,7 +88,7 @@ Exemplo, RF06 (agendar horário):
 ### 4.1 Stack e arquitetura
 
 - **Artefato:** [ADR 0001 – Stack tecnológica](../adr/0001-stack-tecnologica.md).
-- **Decisão:** monolito web em **Python 3.12 + Django 5**, com templates e Bootstrap 5, PostgreSQL em produção (SQLite em desenvolvimento), pytest + GitHub Actions e deploy no Railway.
+- **Decisão:** monolito web em **Python 3.12 + Django 5**, com templates e Bootstrap 5, PostgreSQL em produção (SQLite em desenvolvimento), pytest + GitHub Actions e deploy na Vercel (ADR 0002).
 - **Justificativa principal:** o Django traz autenticação, ORM, migrations e **painel admin** prontos, e o admin cobre RF16, RF17 e RF18. Assim o esforço vai para as regras de agendamento. Também foram avaliadas e descartadas as alternativas Flask, FastAPI + React e Node.js (os motivos estão no ADR).
 
 ### 4.2 Modelo de dados

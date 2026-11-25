@@ -26,3 +26,7 @@ build/
 .idea/
 .DS_Store
 Thumbs.db
+
+# Django
+src/staticfiles/
+media/

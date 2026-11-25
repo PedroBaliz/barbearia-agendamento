@@ -1,6 +1,6 @@
 # ADR 0001 – Stack tecnológica
 
-- **Status:** aceita
+- **Status:** aceita · a linha *Deploy* foi substituída pelo [ADR 0002 – Hospedagem na Vercel](0002-hospedagem-vercel.md)
 - **Data:** 2026-11-25
 - **Critérios relacionados:** C3 (Projeto do sistema), C4 (Ambiente e implementação), C5 (Qualidade e testes)
 
@@ -25,7 +25,7 @@ O prazo é curto, então a stack precisa trazer pronto o que não é o diferenci
 | Banco de dados | SQLite em desenvolvimento; PostgreSQL em produção |
 | Testes | pytest + pytest-django + pytest-cov |
 | CI | GitHub Actions (testes e cobertura a cada push e pull request) |
-| Deploy | Railway (PaaS com PostgreSQL gerenciado) |
+| Deploy | ~~Railway~~ → **Vercel** + PostgreSQL da Vercel Storage (Neon). Ver ADR 0002 |
 | Configuração | Variáveis de ambiente (`.env`, com `.env.example` versionado) |
 
 ## Alternativas consideradas

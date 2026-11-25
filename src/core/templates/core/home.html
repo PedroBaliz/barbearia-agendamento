@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block conteudo %}
+<div class="text-center mb-4">
+  <span class="bb-logo">B</span>
+  <h1 class="h2 fw-bold mt-3 mb-0">BarberBook</h1>
+  <p class="text-secondary">Agende seu estilo</p>
+</div>
+
+<div class="bb-cartao p-4 mb-3">
+  <h2 class="h5 mb-2">Em construção</h2>
+  <p class="text-secondary mb-0">
+    Sistema de agendamento para barbearias. As telas de cadastro, login e agendamento
+    entram nas próximas entregas.
+  </p>
+</div>
+
+<a class="btn btn-bb w-100 py-2" href="{% url 'admin:index' %}">Painel administrativo</a>
+{% endblock %}

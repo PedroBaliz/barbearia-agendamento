@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="pt-br" data-bs-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block titulo %}BarberBook{% endblock %}</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <style>
+    :root { --bb-dourado: #d8a723; --bb-fundo: #121216; --bb-cartao: #1c1d24; }
+    body { background: var(--bb-fundo); }
+    .bb-cartao { background: var(--bb-cartao); border: 1px solid #2c2d36; border-radius: 1rem; }
+    .btn-bb { background: var(--bb-dourado); color: #121216; font-weight: 600; border-radius: .9rem; }
+    .btn-bb:hover { background: #e9b93a; color: #121216; }
+    .text-bb { color: var(--bb-dourado); }
+    .bb-logo { width: 72px; height: 72px; border-radius: 50%; background: var(--bb-dourado); color: #121216;
+               display: inline-flex; align-items: center; justify-content: center; font-size: 2rem; font-weight: 800; }
+  </style>
+</head>
+<body>
+  <main class="container py-5" style="max-width: 480px;">
+    {% block conteudo %}{% endblock %}
+  </main>
+</body>
+</html>

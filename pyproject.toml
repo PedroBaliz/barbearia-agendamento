@@ -1,0 +1,26 @@
+[project]
+name = "barbearia-agendamento"
+version = "0.1.0"
+requires-python = ">=3.12"
+
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "config.settings"
+pythonpath = ["src"]
+testpaths = ["tests"]
+addopts = "--cov=src --cov-report=term-missing"
+filterwarnings = ["ignore:No directory at:UserWarning"]
+
+[tool.coverage.run]
+omit = ["src/manage.py", "src/config/asgi.py", "src/config/wsgi.py", "*/migrations/*"]
+
+[tool.coverage.report]
+# RNF04: cobertura mínima de 60%
+fail_under = 60
+
+[tool.ruff]
+line-length = 120
+target-version = "py312"
+extend-exclude = ["*/migrations/*"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP", "DJ"]

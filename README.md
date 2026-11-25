@@ -20,15 +20,18 @@ O backlog completo (18 requisitos, priorizados por MoSCoW) está no GitHub Proje
 ## Estrutura do repositório
 
 ```
-docs/   artefatos do projeto (BPMN, modelo de dados, UML, ADRs, protótipos)
-src/    código-fonte da aplicação
-tests/  testes automatizados
+docs/          artefatos do projeto (BPMN, modelo de dados, UML, ADRs, protótipo, gestão)
+src/config/    configurações do Django (settings, urls)
+src/contas/    usuários (login por e-mail, papéis cliente/barbeiro/admin)
+src/core/      páginas gerais e healthcheck
+src/templates/ layout base
+tests/         testes automatizados (pytest)
 ```
 
 ## Stack
 
-Python 3.12 · Django 5 · Bootstrap 5 · PostgreSQL (SQLite em desenvolvimento) · pytest · GitHub Actions · Railway.
-Justificativa em [docs/adr/0001-stack-tecnologica.md](docs/adr/0001-stack-tecnologica.md).
+Python 3.12 · Django 5 · Bootstrap 5 · PostgreSQL (SQLite em desenvolvimento) · pytest · GitHub Actions · Vercel.
+Justificativa em [ADR 0001](docs/adr/0001-stack-tecnologica.md) e [ADR 0002 (Vercel)](docs/adr/0002-hospedagem-vercel.md).
 
 ## Documentação
 
@@ -43,7 +46,46 @@ Justificativa em [docs/adr/0001-stack-tecnologica.md](docs/adr/0001-stack-tecnol
 
 ## Como rodar
 
-> Instruções entram aqui junto com o primeiro código (IT2).
+Pré-requisito: **Python 3.12**.
+
+```bash
+# 1. Ambiente virtual e dependências
+python -m venv .venv
+source .venv/bin/activate        # Windows (Git Bash): source .venv/Scripts/activate
+pip install -r requirements-dev.txt
+
+# 2. Variáveis de ambiente
+cp .env.example .env             # depois preencha SECRET_KEY (o próprio arquivo mostra como gerar)
+
+# 3. Banco e servidor
+python src/manage.py migrate
+python src/manage.py createsuperuser
+python src/manage.py runserver
+```
+
+Acesse <http://127.0.0.1:8000>. O painel administrativo fica em `/admin` e o healthcheck em `/saude/`.
+
+Sem `DATABASE_URL`, o projeto usa SQLite local. Em produção, o PostgreSQL vem da Vercel Storage (Neon).
+
+## Testes e qualidade
+
+```bash
+pytest                 # testes + cobertura (falha abaixo de 60%, RNF04)
+ruff check .           # lint
+ruff format .          # formatação
+```
+
+O GitHub Actions roda lint, checagem de migrations e testes contra PostgreSQL a cada push e pull request (`.github/workflows/ci.yml`).
+
+## Deploy
+
+**Vercel** ([ADR 0002](docs/adr/0002-hospedagem-vercel.md)). O Django roda como função serverless (`api/index.py` + `vercel.json`) e o banco é um PostgreSQL da Vercel Storage (Neon).
+
+1. Na Vercel, importe o repositório e, em **Storage**, crie um banco **Neon** ligado ao projeto. Isso define `DATABASE_URL`.
+2. Em **Settings → Environment Variables**, defina `SECRET_KEY` e `DEBUG=false`. Os domínios `*.vercel.app` já são aceitos automaticamente.
+3. No GitHub (**Settings → Secrets → Actions**), crie `DATABASE_URL_PRODUCAO` (a mesma URL do Neon) e `SECRET_KEY_PRODUCAO`. A cada merge na `main`, o job `migrations-producao` aplica as migrations.
+
+Cada push na `main` publica em produção, e cada pull request ganha uma URL de preview.
 
 ## Equipe
 
