@@ -7,6 +7,7 @@ Mudanças relevantes de cada versão. O formato segue o [Keep a Changelog](https
 ### Adicionado
 
 - RF12: o barbeiro cadastra, edita, desativa e reativa os próprios serviços em `/barbeiro/servicos/` (nome, descrição, preço e duração de 5 a 480 min). Nova tabela `servico` com CheckConstraint de preço e duração; `Servico.objects.disponiveis()` para a vitrine e o agendamento (#12).
+- RF13: vitrine pública `/servicos/` com nome, barbeiro, descrição, preço em reais e duração; filtro por barbeiro; botão Agendar que abre `/agendar/?servico=` com o serviço já escolhido (pede login e volta depois). Nova app `agendamentos` (#13).
 - Mensagens de sucesso (`django.contrib.messages`) no layout base.
 
 ### Alterado

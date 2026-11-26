@@ -16,6 +16,7 @@
 {% if user.barbeiro_ativo %}
 <a class="btn btn-bb w-100 py-2 mb-2" href="{% url 'painel_barbeiro' %}">Meu painel</a>
 {% endif %}
+<a class="btn btn-outline-secondary w-100 py-2 mb-2" href="{% url 'lista_servicos' %}">Ver serviços</a>
 <a class="btn btn-outline-secondary w-100 py-2 mb-2" href="{% url 'minha_conta' %}">Minha conta</a>
 {% if user.is_staff %}
 <a class="btn btn-outline-secondary w-100 py-2 mb-2" href="{% url 'admin:index' %}">Painel administrativo</a>
@@ -33,7 +34,8 @@
   </p>
 </div>
 
-<a class="btn btn-bb w-100 py-2 mb-2" href="{% url 'entrar' %}">Entrar</a>
+<a class="btn btn-bb w-100 py-2 mb-2" href="{% url 'lista_servicos' %}">Ver serviços</a>
+<a class="btn btn-outline-secondary w-100 py-2 mb-2" href="{% url 'entrar' %}">Entrar</a>
 <a class="btn btn-outline-secondary w-100 py-2" href="{% url 'cadastro' %}">Criar conta</a>
 {% endif %}
 {% endblock %}

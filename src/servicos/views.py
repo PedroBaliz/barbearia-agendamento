@@ -2,10 +2,25 @@ from django.contrib import messages
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.decorators.http import require_POST
 
+from contas.models import Barbeiro
 from contas.views import barbeiro_requerido
 
 from .forms import ServicoForm
 from .models import Servico
+
+
+def lista_servicos(request):
+    """RF13: vitrine pública dos serviços disponíveis, com filtro opcional por barbeiro."""
+    servicos = Servico.objects.disponiveis().select_related("barbeiro__usuario").order_by("nome", "pk")
+    barbeiros = Barbeiro.objects.disponiveis().select_related("usuario")
+    try:
+        barbeiro_escolhido = int(request.GET.get("barbeiro") or 0)
+    except ValueError:
+        barbeiro_escolhido = 0
+    if barbeiro_escolhido:
+        servicos = servicos.filter(barbeiro_id=barbeiro_escolhido)
+    contexto = {"servicos": servicos, "barbeiros": barbeiros, "barbeiro_escolhido": barbeiro_escolhido}
+    return render(request, "servicos/lista_servicos.html", contexto)
 
 
 def _do_barbeiro(request, pk):

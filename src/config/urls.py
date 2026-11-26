@@ -10,5 +10,6 @@ urlpatterns = [
     path("contas/", include("contas.urls")),
     path("barbeiro/", painel_barbeiro, name="painel_barbeiro"),
     path("", include("servicos.urls")),
+    path("", include("agendamentos.urls")),
     path("admin/", admin.site.urls),
 ]
