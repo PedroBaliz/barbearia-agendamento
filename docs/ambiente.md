@@ -7,7 +7,7 @@ Este guia explica como o ambiente do Barbearia Agendamento está montado: o que 
 ```mermaid
 flowchart LR
     subgraph Local["💻 Máquina de quem desenvolve"]
-        A[Python 3.12 + .venv] --> B[Django + SQLite]
+        A[Python 3.12 + .venv] --> B[Django + PostgreSQL local]
         B --> C[pytest + ruff]
     end
     subgraph GH["🐙 GitHub"]
@@ -27,7 +27,7 @@ flowchart LR
 
 | Ambiente | Banco | `DEBUG` | Para quê |
 |---|---|---|---|
-| Local | SQLite (`src/db.sqlite3`) | `true` | Desenvolver e testar rápido |
+| Local | PostgreSQL local (recomendado, [ADR 0003](adr/0003-postgresql-no-desenvolvimento-local.md)) ou SQLite (`src/db.sqlite3`) | `true` | Desenvolver e testar rápido, com o mesmo banco do CI e da produção |
 | CI (GitHub Actions) | PostgreSQL 16 (container) | `false` | Garantir que lint, migrations e testes passam como em produção |
 | Produção (Vercel) | PostgreSQL Neon | `false` | Site público: <https://barbearia-agendamento-phi.vercel.app> |
 
@@ -82,12 +82,70 @@ cp .env.example .env
 python -c "import secrets; print(secrets.token_urlsafe(50))"
 
 # 3. Banco, usuário admin e servidor
+#    (recomendado: antes, crie o PostgreSQL local, veja a seção abaixo)
 python src/manage.py migrate
 python src/manage.py createsuperuser
 python src/manage.py runserver
 ```
 
 Abra <http://127.0.0.1:8000>. O admin fica em `/admin` e o healthcheck em `/saude/`.
+
+## PostgreSQL local (recomendado)
+
+Desde 26/11/2026, o ambiente local usa **PostgreSQL**, o mesmo banco do CI e da produção. O SQLite continua funcionando: basta deixar `DATABASE_URL` vazia.
+
+**Por quê:** o RF06 (agendar) impede que dois clientes reservem o mesmo horário ao mesmo tempo com uma trava de linha (`select_for_update`). O SQLite ignora essa trava, então um teste de concorrência passaria localmente mesmo com a proteção errada. Com PostgreSQL, o comportamento local é igual ao de produção. A decisão completa está no [ADR 0003](adr/0003-postgresql-no-desenvolvimento-local.md).
+
+### 1. Instalar o PostgreSQL
+
+No Windows: baixe o instalador em <https://www.postgresql.org/download/windows/> e anote a senha do usuário `postgres` que ele pede. O instalador já traz o **pgAdmin 4** (interface gráfica) e o **SQL Shell (psql)**, que ficam no menu Iniciar, na pasta *PostgreSQL 18*. O serviço sobe sozinho na porta `5432`.
+
+### 2. Criar o usuário e o banco do app
+
+São dois comandos SQL, rodados uma única vez como administrador (`postgres`):
+
+```sql
+CREATE USER barbearia WITH PASSWORD 'barbearia' CREATEDB;
+CREATE DATABASE barbearia OWNER barbearia;
+```
+
+- `CREATEDB` é necessário porque o pytest cria e apaga o banco temporário `test_barbearia` a cada rodada.
+- O usuário `barbearia` não é administrador: é dono só do banco `barbearia`.
+- Os nomes são os mesmos do CI (`.github/workflows/ci.yml`).
+
+**Pelo pgAdmin 4:**
+1. Na tela de conexão, preencha **Host** `localhost`, **Port** `5432`, **Database** `postgres`, **User** `postgres` e a sua senha. Deixe *Service* e *Connection Parameters* em branco.
+2. Clique em **Connect & Open Query Tool**, cole os dois comandos e aperte **F5**.
+3. Na aba **Messages** deve aparecer `CREATE ROLE` e `CREATE DATABASE`. Se aparecer *cannot run inside a transaction block*, rode uma linha de cada vez.
+
+**Pelo SQL Shell (psql):** aperte Enter nas 4 primeiras perguntas, digite a senha do `postgres` e, no prompt `postgres=#`, cole os dois comandos. Confira com `\l barbearia` e saia com `\q`.
+
+### 3. Apontar o app para o banco
+
+No `.env` (que nunca vai para o Git):
+
+```
+DATABASE_URL=postgresql://barbearia:barbearia@localhost:5432/barbearia
+```
+
+A senha do `postgres` **não** vai para o `.env`; só a do usuário `barbearia`, que vale apenas na sua máquina.
+
+### 4. Criar as tabelas e conferir
+
+```bash
+python src/manage.py migrate      # cria as tabelas no PostgreSQL
+pytest                            # os testes devem passar como no CI
+python src/manage.py createsuperuser
+```
+
+Os dados do `src/db.sqlite3` não passam para o PostgreSQL; recrie o superusuário. Para voltar ao SQLite, esvazie a linha `DATABASE_URL=` no `.env`.
+
+| Problema | Causa | Solução |
+|---|---|---|
+| `autenticação do tipo senha falhou para o usuário "postgres"` | Senha do administrador errada | Use a senha definida na instalação |
+| `autenticação do tipo senha falhou para o usuário "barbearia"` | Usuário não foi criado ou senha diferente | Rode o `CREATE USER` ou ajuste a senha na `DATABASE_URL` |
+| `permission denied to create database` ao rodar o pytest | Usuário sem `CREATEDB` | `ALTER USER barbearia CREATEDB;` como `postgres` |
+| `connection refused` na porta 5432 | Serviço parado | Inicie o serviço `postgresql-x64-18` em *Serviços* do Windows |
 
 ## Variáveis de ambiente
 
@@ -97,7 +155,7 @@ O código não tem nenhum segredo. Tudo vem de variáveis: no `.env` local (que 
 |---|---|---|---|
 | `DEBUG` | `true` | `false` | Liga mensagens de erro detalhadas. Em `false`, ativa as proteções de produção |
 | `SECRET_KEY` | qualquer valor longo | gerada e guardada como *sensível* na Vercel | Assina sessões e tokens. Sem ela, com `DEBUG=false`, o app **se recusa a subir** |
-| `DATABASE_URL` | vazia (usa SQLite) | criada pela integração Neon | Endereço do PostgreSQL. Na Vercel, se faltar, o app para com uma mensagem clara (SQLite perderia os dados) |
+| `DATABASE_URL` | `postgresql://barbearia:barbearia@localhost:5432/barbearia` (recomendado) ou vazia (usa SQLite) | criada pela integração Neon | Endereço do PostgreSQL. Na Vercel, se faltar, o app para com uma mensagem clara (SQLite perderia os dados) |
 | `ALLOWED_HOSTS` | `localhost,127.0.0.1` | automático (`*.vercel.app`) | Domínios aceitos |
 | `CSRF_TRUSTED_ORIGINS` | vazia | automático (`https://*.vercel.app`) | Origens aceitas em formulários |
 
