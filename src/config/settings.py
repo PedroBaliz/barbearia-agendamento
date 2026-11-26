@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     "contas",
     "core",
     "servicos",
+    "agendamentos",
 ]
 
 MIDDLEWARE = [
