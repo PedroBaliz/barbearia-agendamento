@@ -8,6 +8,7 @@ Mudanças relevantes de cada versão. O formato segue o [Keep a Changelog](https
 
 - RF12: o barbeiro cadastra, edita, desativa e reativa os próprios serviços em `/barbeiro/servicos/` (nome, descrição, preço e duração de 5 a 480 min). Nova tabela `servico` com CheckConstraint de preço e duração; `Servico.objects.disponiveis()` para a vitrine e o agendamento (#12).
 - RF13: vitrine pública `/servicos/` com nome, barbeiro, descrição, preço em reais e duração; filtro por barbeiro; botão Agendar que abre `/agendar/?servico=` com o serviço já escolhido (pede login e volta depois). Nova app `agendamentos` (#13).
+- RF18: o admin define em `/painel/horario/`, para cada dia da semana, se a barbearia abre e o horário de abertura e fechamento. Os 7 dias são salvos numa transação: um erro em qualquer dia não grava nenhum. Nova tabela `horario_funcionamento` com CheckConstraint (`fechamento > abertura`) e `HorarioFuncionamento.intervalo_do_dia()`, base do cálculo de horários livres do RF05 (#18).
 - Mensagens de sucesso (`django.contrib.messages`) no layout base.
 
 ### Alterado

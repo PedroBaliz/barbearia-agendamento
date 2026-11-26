@@ -18,6 +18,9 @@
 {% endif %}
 <a class="btn btn-outline-secondary w-100 py-2 mb-2" href="{% url 'lista_servicos' %}">Ver serviços</a>
 <a class="btn btn-outline-secondary w-100 py-2 mb-2" href="{% url 'minha_conta' %}">Minha conta</a>
+{% if user.eh_admin %}
+<a class="btn btn-bb w-100 py-2 mb-2" href="{% url 'horario_funcionamento' %}">Horário de funcionamento</a>
+{% endif %}
 {% if user.is_staff %}
 <a class="btn btn-outline-secondary w-100 py-2 mb-2" href="{% url 'admin:index' %}">Painel administrativo</a>
 {% endif %}

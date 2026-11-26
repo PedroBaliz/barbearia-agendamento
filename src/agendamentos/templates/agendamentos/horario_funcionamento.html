@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% load formularios %}
+
+{% block titulo %}Horário de funcionamento · BarberBook{% endblock %}
+
+{% block conteudo %}
+<h1 class="h3 fw-bold mb-1">Horário de funcionamento</h1>
+<p class="text-secondary mb-3">Defina em quais dias a barbearia abre e o horário de cada um. Mudar o horário não cancela agendamentos já feitos.</p>
+
+{% if tem_erro %}
+<div class="alert alert-danger py-2" role="alert">Corrija os dias destacados. Nada foi salvo.</div>
+{% endif %}
+
+<form method="post" novalidate>
+  {% csrf_token %}
+  {% for form in forms %}
+  <fieldset class="bb-cartao p-3 mb-2" data-dia="{{ form.dia }}">
+    <div class="d-flex justify-content-between align-items-center">
+      <legend class="h6 mb-0 fs-6 w-auto">{{ form.nome_dia }}</legend>
+      <div class="form-check form-switch mb-0">
+        {{ form.aberto|bootstrap }}
+        <label class="form-check-label" for="{{ form.aberto.id_for_label }}">Aberto</label>
+      </div>
+    </div>
+    <div class="row g-2 mt-1">
+      {% for campo in form %}{% if campo.name != "aberto" %}
+      <div class="col">
+        <label class="form-label small text-secondary mb-1" for="{{ campo.id_for_label }}">{{ campo.label }}</label>
+        {{ campo|bootstrap }}
+        {% if campo.errors %}<div class="invalid-feedback" id="{{ campo.id_for_label }}-erro">{{ campo.errors|join:" " }}</div>{% endif %}
+      </div>
+      {% endif %}{% endfor %}
+    </div>
+  </fieldset>
+  {% endfor %}
+  <button type="submit" class="btn btn-bb w-100 py-2 mt-2">Salvar horários</button>
+</form>
+
+<a class="btn btn-outline-secondary w-100 py-2 mt-2" href="{% url 'home' %}">Voltar ao início</a>
+{% endblock %}

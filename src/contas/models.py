@@ -68,6 +68,11 @@ class Usuario(AbstractUser):
         perfil = getattr(self, "barbeiro", None)
         return perfil is not None and perfil.ativo
 
+    @property
+    def eh_admin(self):
+        """Admin da barbearia: papel admin ou superusuário (RF16–RF18)."""
+        return self.is_active and (self.is_superuser or self.papel == self.Papel.ADMIN)
+
     def destino_inicial(self):
         """Nome da URL para onde o usuário vai depois de entrar ou se cadastrar."""
         return "painel_barbeiro" if self.barbeiro_ativo else "home"
