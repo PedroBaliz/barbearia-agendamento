@@ -19,6 +19,9 @@
 </head>
 <body>
   <main class="container py-5" style="max-width: 480px;">
+    {% for mensagem in messages %}
+    <div class="alert alert-{% if mensagem.tags == 'error' %}danger{% else %}{{ mensagem.tags|default:'info' }}{% endif %} py-2" role="status">{{ mensagem }}</div>
+    {% endfor %}
     {% block conteudo %}{% endblock %}
   </main>
 </body>

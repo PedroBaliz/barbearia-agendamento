@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block titulo %}{{ titulo }} · BarberBook{% endblock %}
+
+{% block conteudo %}
+<h1 class="h3 fw-bold mb-3">{{ titulo }}</h1>
+
+<form method="post" class="bb-cartao p-4 mb-3" novalidate>
+  {% csrf_token %}
+  {% for campo in form %}
+  {% include "partials/campo.html" %}
+  {% endfor %}
+  <button type="submit" class="btn btn-bb w-100 py-2">Salvar</button>
+</form>
+
+<a class="btn btn-outline-secondary w-100 py-2" href="{% url 'meus_servicos' %}">Cancelar</a>
+{% endblock %}

@@ -2,6 +2,17 @@
 
 Mudanças relevantes de cada versão. O formato segue o [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/) e as versões seguem o [Versionamento Semântico](https://semver.org/lang/pt-BR/).
 
+## [Não lançado] – rumo à 0.4.0 · Serviços e horário
+
+### Adicionado
+
+- RF12: o barbeiro cadastra, edita, desativa e reativa os próprios serviços em `/barbeiro/servicos/` (nome, descrição, preço e duração de 5 a 480 min). Nova tabela `servico` com CheckConstraint de preço e duração; `Servico.objects.disponiveis()` para a vitrine e o agendamento (#12).
+- Mensagens de sucesso (`django.contrib.messages`) no layout base.
+
+### Alterado
+
+- Campos de formulário desenhados pelo filtro `bootstrap` (`core/templatetags/formularios.py`), que aceita qualquer widget: textarea, número, hora, checkbox e select.
+
 ## [0.3.0] – 2026-11-25 · Cadastro e acesso
 
 Primeiros requisitos funcionais: os 4 Must de cadastro e acesso (RF01–RF04). Cliente e barbeiro criam conta, entram e saem, e o barbeiro tem um painel próprio. Fecha as issues #1, #2, #3 e #4.
