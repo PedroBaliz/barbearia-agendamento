@@ -13,13 +13,13 @@ Barbearias pequenas controlam horários por WhatsApp ou caderno, o que gera conf
 | Funcionalidade | Requisitos | Situação |
 |---|---|---|
 | Cadastro e login de clientes e barbeiros | RF01–RF04 | ✅ v0.3.0 |
-| Cadastro de serviços (nome, preço, duração) e lista com preços | RF12, RF13 | ⏳ v0.4.0 |
-| Configuração do horário de funcionamento da barbearia | RF18 | ⏳ v0.4.0 |
+| Cadastro de serviços (nome, preço, duração) e lista com preços | RF12, RF13 | ✅ v0.4.0 |
+| Configuração do horário de funcionamento da barbearia | RF18 | ✅ v0.4.0 |
 | Consulta de horários disponíveis e agendamento | RF05, RF06 | ⏳ v0.5.0 |
 | Cancelamento de agendamento | RF07 | ⏳ v0.5.0 |
 | Agenda do dia do barbeiro | RF09 | ⏳ v0.5.0 |
 
-Telas já disponíveis: `/contas/cadastro/` (cliente), `/contas/cadastro/barbeiro/`, `/contas/entrar/`, `/contas/minha-conta/` e `/barbeiro/` (painel do barbeiro).
+Telas já disponíveis: `/contas/cadastro/` (cliente), `/contas/cadastro/barbeiro/`, `/contas/entrar/`, `/contas/minha-conta/`, `/barbeiro/` (painel do barbeiro), `/barbeiro/servicos/` (serviços do barbeiro), `/servicos/` (vitrine pública), `/agendar/?servico=` (início do agendamento) e `/painel/horario/` (horário de funcionamento, admin).
 
 O backlog completo (18 requisitos, priorizados por MoSCoW) está no GitHub Projects do repositório.
 

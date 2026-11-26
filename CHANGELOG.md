@@ -2,7 +2,9 @@
 
 Mudanças relevantes de cada versão. O formato segue o [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/) e as versões seguem o [Versionamento Semântico](https://semver.org/lang/pt-BR/).
 
-## [Não lançado] – rumo à 0.4.0 · Serviços e horário
+## [0.4.0] – 2026-11-26 · Serviços e horário
+
+O que o agendamento precisa para calcular horários: os serviços de cada barbeiro, com preço e duração, a vitrine pública e o horário de funcionamento da barbearia. Fecha as issues #12, #13 e #18. Com esta versão, 7 dos 11 Must estão prontos.
 
 ### Adicionado
 
@@ -10,9 +12,11 @@ Mudanças relevantes de cada versão. O formato segue o [Keep a Changelog](https
 - RF13: vitrine pública `/servicos/` com nome, barbeiro, descrição, preço em reais e duração; filtro por barbeiro; botão Agendar que abre `/agendar/?servico=` com o serviço já escolhido (pede login e volta depois). Nova app `agendamentos` (#13).
 - RF18: o admin define em `/painel/horario/`, para cada dia da semana, se a barbearia abre e o horário de abertura e fechamento. Os 7 dias são salvos numa transação: um erro em qualquer dia não grava nenhum. Nova tabela `horario_funcionamento` com CheckConstraint (`fechamento > abertura`) e `HorarioFuncionamento.intervalo_do_dia()`, base do cálculo de horários livres do RF05 (#18).
 - Mensagens de sucesso (`django.contrib.messages`) no layout base.
+- Testes de aceitação `test_cadastro_servico.py`, `test_listar_servicos.py` e `test_horario_funcionamento.py`: 114 testes no total, cobertura de ~96%.
 
 ### Alterado
 
+- Home: botão Ver serviços para todos e atalho Horário de funcionamento para o admin; painel do barbeiro com Meus serviços.
 - Campos de formulário desenhados pelo filtro `bootstrap` (`core/templatetags/formularios.py`), que aceita qualquer widget: textarea, número, hora, checkbox e select.
 
 ## [0.3.0] – 2026-11-25 · Cadastro e acesso
@@ -69,6 +73,7 @@ Primeira versão. Contém só documentação, sem código ainda. Resumo da fase:
 - Modelo de desenvolvimento: iterativo e incremental, Scrum enxuto + Kanban, Definição de Pronto.
 - Protótipo de interface (`docs/prototipo/`).
 
+[0.4.0]: https://github.com/PedroBaliz/barbearia-agendamento/releases/tag/v0.4.0
 [0.3.0]: https://github.com/PedroBaliz/barbearia-agendamento/releases/tag/v0.3.0
 [0.2.0]: https://github.com/PedroBaliz/barbearia-agendamento/releases/tag/v0.2.0
 [0.1.0]: https://github.com/PedroBaliz/barbearia-agendamento/releases/tag/v0.1.0
