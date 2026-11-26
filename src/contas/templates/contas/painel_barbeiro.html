@@ -12,6 +12,7 @@
   <p class="text-secondary mb-0">Nenhum agendamento para hoje. A agenda completa entra com o RF09.</p>
 </div>
 
+<a class="btn btn-bb w-100 py-2 mb-2" href="{% url 'meus_servicos' %}">Meus serviços</a>
 <a class="btn btn-outline-secondary w-100 py-2 mb-2" href="{% url 'minha_conta' %}">Minha conta</a>
 <form method="post" action="{% url 'sair' %}">
   {% csrf_token %}

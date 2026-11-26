@@ -9,5 +9,6 @@ urlpatterns = [
     path("saude/", views.saude, name="saude"),
     path("contas/", include("contas.urls")),
     path("barbeiro/", painel_barbeiro, name="painel_barbeiro"),
+    path("", include("servicos.urls")),
     path("admin/", admin.site.urls),
 ]
