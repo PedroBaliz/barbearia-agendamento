@@ -67,6 +67,19 @@ def barbeiro_requerido(view):
     return _view
 
 
+def admin_requerido(view):
+    """Exige login; quem não é admin da barbearia recebe 403 (RF16–RF18)."""
+
+    @login_required
+    @wraps(view)
+    def _view(request, *args, **kwargs):
+        if not request.user.eh_admin:
+            raise PermissionDenied("Área exclusiva do administrador.")
+        return view(request, *args, **kwargs)
+
+    return _view
+
+
 @barbeiro_requerido
 def painel_barbeiro(request):
     """RF03: painel do barbeiro. A agenda do dia em si entra com o RF09."""
