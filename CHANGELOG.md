@@ -2,6 +2,16 @@
 
 Mudanças relevantes de cada versão. O formato segue o [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/) e as versões seguem o [Versionamento Semântico](https://semver.org/lang/pt-BR/).
 
+## [Não lançado] – rumo à 0.5.0 · Agendamento
+
+### Adicionado
+
+- ADR 0003 – PostgreSQL também no desenvolvimento local e passo a passo em `docs/ambiente.md` (pgAdmin 4 ou psql: usuário e banco `barbearia`, `DATABASE_URL`, `migrate`, problemas comuns) (#60).
+
+### Alterado
+
+- Ambiente local passa a usar PostgreSQL, como o CI e a produção. Motivo: o RF06 vai impedir reservas simultâneas do mesmo horário com trava de linha (`select_for_update`), que o SQLite ignora; com SQLite, um teste de concorrência passaria mesmo com a proteção errada. O SQLite continua disponível com `DATABASE_URL` vazia. Verificado em 26/11: 22 migrations e 114 testes passando no PostgreSQL 18 local (#60).
+
 ## [0.4.0] – 2026-11-26 · Serviços e horário
 
 O que o agendamento precisa para calcular horários: os serviços de cada barbeiro, com preço e duração, a vitrine pública e o horário de funcionamento da barbearia. Fecha as issues #12, #13 e #18. Com esta versão, 7 dos 11 Must estão prontos.

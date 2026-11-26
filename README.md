@@ -36,8 +36,8 @@ tests/         testes automatizados (pytest)
 
 ## Stack
 
-Python 3.12 · Django 5 · Bootstrap 5 · PostgreSQL (SQLite em desenvolvimento) · pytest · GitHub Actions · Vercel.
-Justificativa em [ADR 0001](docs/adr/0001-stack-tecnologica.md) e [ADR 0002 (Vercel)](docs/adr/0002-hospedagem-vercel.md).
+Python 3.12 · Django 5 · Bootstrap 5 · PostgreSQL (local, CI e produção) · pytest · GitHub Actions · Vercel.
+Justificativa em [ADR 0001](docs/adr/0001-stack-tecnologica.md), [ADR 0002 (Vercel)](docs/adr/0002-hospedagem-vercel.md) e [ADR 0003 (PostgreSQL local)](docs/adr/0003-postgresql-no-desenvolvimento-local.md).
 
 ## Documentação
 
@@ -73,7 +73,7 @@ python src/manage.py runserver
 
 Acesse <http://127.0.0.1:8000>. O painel administrativo fica em `/admin` e o healthcheck em `/saude/`.
 
-Sem `DATABASE_URL`, o projeto usa SQLite local. Em produção, o PostgreSQL vem da Vercel Storage (Neon).
+**Banco local:** o recomendado é PostgreSQL, igual ao CI e à produção. O passo a passo (pgAdmin ou psql) está em [docs/ambiente.md](docs/ambiente.md#postgresql-local-recomendado), e o motivo, no [ADR 0003](docs/adr/0003-postgresql-no-desenvolvimento-local.md). Sem `DATABASE_URL`, o projeto usa SQLite local. Em produção, o PostgreSQL vem da Vercel Storage (Neon).
 
 ## Testes e qualidade
 
